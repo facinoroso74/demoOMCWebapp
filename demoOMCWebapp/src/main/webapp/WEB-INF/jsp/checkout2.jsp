@@ -5,6 +5,10 @@ License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <!DOCTYPE html>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <html lang="zxx">
 
 <head>
@@ -22,6 +26,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			window.scrollTo(0, 1);
 		}
 	</script>
+	
 	<!-- //custom-theme -->
 	<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 	<link rel="stylesheet" href="css/shop.css" type="text/css" media="screen" property="" />
@@ -563,6 +568,53 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	</script>
 	<!-- //end-smoth-scrolling -->
 	<script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+		//alert("hello world!");
+		$('#submitCart').click(function() {
+
+			alert("subtotal:[]");
+			
+			// Let's select and cache all the fields
+		    var $inputs = $( "#CartForm" ).find("input, select, button, textarea");
+		
+		    // Serialize the data in the form
+		    var serializedData = $( "#CartForm" ).serialize();
+		    alert("serializedData:["+serializedData+"]");
+		    var subtotale=$("#subtotale").text();
+		    alert("subtotale:"+subtotale);
+		    $('input[name="bn"]').val(subtotale);
+		    alert($('input[name="bn"]').val());
+		    
+		    //TODO
+		    //non ci sono gli id delle immagini corrispondenti
+		    //si potrebbero prelevare da una mappa letta dal controller
+		    
+ 		});
+} );
+</script>
+
+
+<table width="50%">
+	<tr>
+		<th>Name</th>
+		<th>Lastname</th>
+	</tr>
+	<c:forEach items="${cart.shoesItems}" var="shoesItem" varStatus="status">
+		<tr>
+			<td>${shoesItem.shoe_item}</td>
+			<td>${shoesItem.quantity}</td>
+		</tr>
+	</c:forEach>
+	<tr>
+		<td><td>${cart.subtotale1}</td>
+		</td><td>${cart.subtotale2}</td>
+	</tr>
+	
+</table>	
+
 
 
 </body>

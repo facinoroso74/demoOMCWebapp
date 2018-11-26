@@ -3,7 +3,6 @@ package sample.jsp.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,16 +36,7 @@ public class ContactController {
 		System.out.println("aaaaaaaaaaaaaaaaaa");
 		return new ModelAndView("add_contact" , "contactForm", contactForm);
 	}
-	
-	@RequestMapping(value = "/prova", method = RequestMethod.GET)
-	public ModelAndView getProva() {
 		
-		ContactForm contactForm = new ContactForm();
-		contactForm.setContacts(contacts);
-		System.out.println("skkkkkkkkkkkkkkkk");
-		return new ModelAndView("prova" , "contactForm", contactForm);
-	}
-	
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public ModelAndView save(@ModelAttribute("contactForm") ContactForm contactForm) {
 		System.out.println(contactForm);
