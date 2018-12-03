@@ -112,128 +112,58 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="shop_inner_inf">
 			<div class="privacy about">
 				<h3>Chec<span>kout</span></h3>
-
-				<div class="checkout-right">
-					<h4>Your shopping cart contains: <span>3 Products</span></h4>
-					<table class="timetable_sub">
-						<thead>
-							<tr>
-								<th>SL No.</th>
-								<th>Product</th>
-								<th>Quality</th>
-								<th>Product Name</th>
-
-								<th>Price</th>
-								<th>Remove</th>
-							</tr>
-						</thead>
-						<tbody>
-						<% int i = 0; %> 
-						<c:forEach items="${cart.shoesItems}" var="shoesItem" varStatus="status">
-						<% i = i+1; %>
-							<tr class="rem<%=i%>">
-									<td class="invert">1</td>
-									<td class="invert-image"><a href="single.html"><img src="${shoesItem.imagePath}" alt=" " class="img-responsive"></a></td>
-									<td class="invert">
-										<div class="quantity">
-											<div class="quantity-select">
-												<div class="entry value-minus">&nbsp;</div>
-												<div class="entry value"><span>${shoesItem.quantity}</span></div>
-												<div class="entry value-plus active">&nbsp;</div>
+				<div class="col-md-8 address_form">
+						<h4>Add a new Details</h4>
+						<form action="payment.html" method="post" class="creditly-card-form agileinfo_form">
+							
+							<section class="creditly-wrapper wrapper">
+								<div class="information-wrapper">
+									<div class="first-row form-group">
+										<div class="controls">
+											<label class="control-label">Full name: </label>
+											<input class="billing-address-name form-control" type="text" name="fullName" placeholder="Full name">
+										</div>
+										<div class="card_number_grids">
+											<div class="card_number_grid_left">
+												<div class="controls">
+													<label class="control-label">Mobile number:</label>
+													<input class="form-control" type="text" name="mobileNumber" placeholder="Mobile number">
+												</div>
 											</div>
+											<div class="card_number_grid_right">
+												<div class="controls">
+													<label class="control-label">Address: </label>
+													<input class="form-control" type="text" name="address" placeholder="Address">
+												</div>
+											</div>
+											<div class="clear"> </div>
 										</div>
-									<td class="invert">${shoesItem.shoe_item}</td>
-									<td class="invert">$${shoesItem.amount}.00</td>
-									<td class="invert">
-										<div class="rem">
-											<div id="1" class="close<%=i%>"> </div>
+										<div class="controls">
+											<label class="control-label">Town/City: </label>
+											<input class="form-control" type="text" name="city"  placeholder="Town/City">
 										</div>
-										
-<!-- <div class="sbmincart-details-remove"> -->
-<%-- 	<button type="button" class="sbmincart-remove" data-sbmincart-idx="<%= i %>">&times;</button> --%>
-<!-- </div> -->
-
-									</td>
-								</tr>
-						</c:forEach>
-
-						</tbody>
-					</table>
-				</div>
-				<div class="checkout-left">
-					
-					<div class="col-md-4 checkout-left-basket">
-						<h4>Continue to basket</h4>
-						<ul>
-						<c:forEach items="${cart.shoesItems}" var="shoesItem" varStatus="status">
-							<li>${shoesItem.shoe_item}<i>-</i> <span>$${shoesItem.amount}.00</span></li>
-						</c:forEach>
-<!-- 							<li>Total Service Charges <i>-</i> <span>$55.00</span></li> -->
-							<li>Total <i>-</i> <span>${cart.subtotal}</span></li>
-						</ul>
-						<form:form method="post" action="shipment.html" modelAttribute="cart">
-									<c:forEach items="${cart.shoesItems}" var="shoesItem" varStatus="status">
-										<input type="hidden" name="shoesItems[${status.index}].shoe_item" value="${shoesItem.shoe_item}"/>
-										<input type="hidden" name="shoesItems[${status.index}].quantity" value="${shoesItem.quantity}"/>
-										<input type="hidden" name="shoesItems[${status.index}].shipping1" value="${shoesItem.shipping1}"/>
-										<input type="hidden" name="shoesItems[${status.index}].shipping2" value="${shoesItem.shipping2}"/>
-										<input type="hidden" name="shoesItems[${status.index}].imagePath" value="${shoesItem.imagePath}"/>
-										<input type="hidden" name="shoesItems[${status.index}].amount" value="${shoesItem.amount}"/>
-									</c:forEach>		
-									<input type="hidden" name="subtotal" value="${cart.subtotal}"/>
-<!-- 									<button class="submit check_out" disabled="disabled">Shipping</button> -->
- 									<button class="submit check_out">Shipping</button>
-						</form:form>
-					</div>
-					
-					<div class="col-md-8 address_form">
-<!-- 						<h4>Add a new Details</h4> -->
-<%-- 						<form action="payment.html" method="post" class="creditly-card-form agileinfo_form"> --%>
-<!-- 							<section class="creditly-wrapper wrapper"> -->
-<!-- 								<div class="information-wrapper"> -->
-<!-- 									<div class="first-row form-group"> -->
-<!-- 										<div class="controls"> -->
-<!-- 											<label class="control-label">Full name: </label> -->
-<!-- 											<input class="billing-address-name form-control" type="text" name="name" placeholder="Full name"> -->
-<!-- 										</div> -->
-<!-- 										<div class="card_number_grids"> -->
-<!-- 											<div class="card_number_grid_left"> -->
-<!-- 												<div class="controls"> -->
-<!-- 													<label class="control-label">Mobile number:</label> -->
-<!-- 													<input class="form-control" type="text" placeholder="Mobile number"> -->
-<!-- 												</div> -->
-<!-- 											</div> -->
-<!-- 											<div class="card_number_grid_right"> -->
-<!-- 												<div class="controls"> -->
-<!-- 													<label class="control-label">Landmark: </label> -->
-<!-- 													<input class="form-control" type="text" placeholder="Landmark"> -->
-<!-- 												</div> -->
-<!-- 											</div> -->
-<!-- 											<div class="clear"> </div> -->
-<!-- 										</div> -->
-<!-- 										<div class="controls"> -->
-<!-- 											<label class="control-label">Town/City: </label> -->
-<!-- 											<input class="form-control" type="text" placeholder="Town/City"> -->
-<!-- 										</div> -->
-<!-- 										<div class="controls"> -->
-<!-- 											<label class="control-label">Address type: </label> -->
-<!-- 											<select class="form-control option-w3ls"> -->
-<!-- 													<option>Office</option> -->
-<!-- 													<option>Home</option> -->
-<!-- 													<option>Commercial</option> -->
-<!-- 											</select> -->
-<!-- 										</div> -->
-<!-- 									</div> -->
-									
-									
-								
-<!-- 							</section> -->
-<%-- 						</form> --%>
-<!-- 						<div class="checkout-right-basket"> -->
+									</div>
+							</section>
+							
+							<button class="submit check_out">Make a payment</button>
+							
+							<input type="text"  name="customerOrderId" value="${orderId}">
+							<input type="text"  name="userId" value="${customerId}">
+						</form>
+						<div class="checkout-right-basket">
 <!-- 							<a href="payment.html">Make a Payment </a> -->
-<!-- 						</div> -->
+						</div>
 					</div>
 
+					<div class="checkout-right">
+						<h4>Your shopping cart contains: <span>3 Products</span></h4>
+					</div>
+					
+				<div class="checkout-left">
+					<div class="col-md-4 checkout-left-basket">
+					</div>
+					<div class="col-md-8 address_form">
+					</div>
 					<div class="clearfix"></div>
 				</div>
 			</div>

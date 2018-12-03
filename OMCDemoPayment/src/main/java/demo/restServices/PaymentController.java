@@ -1,22 +1,21 @@
 package demo.restServices;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import demo.exception.ShoesNotFoundException;
-import demo.repository.ShoesRepository;
-import demo.vo.Shoes;
+import demo.exception.PaymentNotFoundException;
+import demo.repository.PaymentRepository;
+import demo.vo.Payment;
 
 @RestController
-public class ShoesController {
+public class PaymentController {
 
 	@Autowired
-	ShoesRepository shoesRepository;
+	PaymentRepository paymentRepository;
 	
 //	@GetMapping(path = "/shoes/{serialNumber}")
 //	public Shoes getShoes(@PathVariable Long serialNumber) {
@@ -26,22 +25,22 @@ public class ShoesController {
 //		
 //	}
 	
-	@GetMapping(path = "/shoes/{productName}")
-	public Shoes getShoes(@PathVariable String productName) {
+	@GetMapping(path = "/payment/{id}")
+	public Payment getPayment(@PathVariable Long id) {
 		
-		return shoesRepository.findByProductName(productName)
-				.orElseThrow(() -> new ShoesNotFoundException(productName));
+		return paymentRepository.findById(id)
+				.orElseThrow(() -> new PaymentNotFoundException(id));
 		
 	}
 	
-	@GetMapping(path = "/shoes")
-	public Iterable<Shoes> getAllShoes() {
-		return shoesRepository.findAll();
+	@GetMapping(path = "/payment")
+	public Iterable<Payment> getAllPayment() {
+		return paymentRepository.findAll();
 	}
 	
-	@PostMapping("/shoes")
-	Shoes newShoes(@RequestBody Shoes shoes) {
-		return shoesRepository.save(shoes);
+	@PostMapping("/payment")
+	Payment newPayment(@RequestBody Payment payment) {
+		return paymentRepository.save(payment);
 	}
 	
 //	@PutMapping("/shoes/{id}")
@@ -60,9 +59,9 @@ public class ShoesController {
 //			});
 //	}
 
-	@DeleteMapping("/shoes/{id}")
-	void deleteEmployee(@PathVariable Long serialNumber) {
-		shoesRepository.deleteBySerialNumber(serialNumber);
-	}
+//	@DeleteMapping("/payment/{id}")
+//	void deleteEmployee(@PathVariable Long serialNumber) {
+//		shoesRepository.deleteBySerialNumber(serialNumber);
+//	}
 	
 }

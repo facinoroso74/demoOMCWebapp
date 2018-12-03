@@ -30,23 +30,21 @@ public class ContactController {
 	
 	@RequestMapping(value = "/get", method = RequestMethod.GET)
 	public ModelAndView get() {
-		
 		ContactForm contactForm = new ContactForm();
 		contactForm.setContacts(contacts);
-		System.out.println("aaaaaaaaaaaaaaaaaa");
 		return new ModelAndView("add_contact" , "contactForm", contactForm);
 	}
 		
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public ModelAndView save(@ModelAttribute("contactForm") ContactForm contactForm) {
-		System.out.println(contactForm);
-		System.out.println(contactForm.getContacts());
+		log.debug(contactForm);
+		log.debug(contactForm.getContacts());
 		List<Contact> contacts = contactForm.getContacts();
 		
 		if(null != contacts && contacts.size() > 0) {
 			ContactController.contacts = contacts;
 			for (Contact contact : contacts) {
-				System.out.printf("%s \t %s \n", contact.getFirstname(), contact.getLastname());
+				log.debug("%s \t %s \n", contact.getFirstname(), contact.getLastname());
 			}
 		}
 		

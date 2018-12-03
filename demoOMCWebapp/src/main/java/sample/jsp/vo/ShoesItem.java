@@ -13,18 +13,19 @@ public class ShoesItem implements Serializable{
 	private String amount;
 	private String shipping1;
 	private String shipping2;
+	private String imagePath;
 	
 	public ShoesItem() {
-		
 	}
 			
-	public ShoesItem(String quantity, String shoe_item, String amount, String shipping1, String shipping2) {
+	public ShoesItem(String quantity, String shoe_item, String amount, String shipping1, String shipping2,String imagePath) {
 		super();
 		this.quantity = quantity;
 		this.shoe_item = shoe_item;
 		this.amount = amount;
 		this.shipping1 = shipping1;
 		this.shipping2 = shipping2;
+		this.imagePath= imagePath;
 	}
 
 	public String getQuantity() {
@@ -67,11 +68,18 @@ public class ShoesItem implements Serializable{
 		this.shipping2 = shipping2;
 	}
 
+	public String getImagePath() {
+		return imagePath;
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
+
 	@Override
 	public String toString() {
 		return "ShoesItem [quantity=" + quantity + ", shoe_item=" + shoe_item + ", amount=" + amount + ", shipping1="
-				+ shipping1 + ", shipping2=" + shipping2 + "]\n";
+				+ shipping1 + ", shipping2=" + shipping2 + ", imagePath=" + imagePath + "]";
 	}
-
 
 }

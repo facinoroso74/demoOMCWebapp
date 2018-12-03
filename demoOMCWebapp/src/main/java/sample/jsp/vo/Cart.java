@@ -12,8 +12,9 @@ public class Cart implements Serializable{
 	 */
 	private static final long serialVersionUID = -4433338736876242239L;
 	
-	private String subtotale1="11111111111";
-	private String subtotale2="22222222222";
+	private String subtotal;
+	private String userName;
+	private String password;
 	
 	private List<ShoesItem> shoesItems=new ArrayList<ShoesItem>();
 
@@ -29,27 +30,35 @@ public class Cart implements Serializable{
 		shoesItems.add(shoesItem);
 	}
 
+	public String getSubtotal() {
+		return subtotal;
+	}
+
+	public void setSubtotal(String subtotal) {
+		this.subtotal = subtotal;
+	}
+	
+	
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	@Override
 	public String toString() {
 		return "Cart [shoesItems=" + shoesItems + "]";
 	}
 
-	public String getSubtotale1() {
-		return subtotale1;
-	}
-
-	public void setSubtotale1(String subtotale1) {
-		this.subtotale1 = subtotale1;
-	}
-
-	public String getSubtotale2() {
-		return subtotale2;
-	}
-
-	public void setSubtotale2(String subtotale2) {
-		this.subtotale2 = subtotale2;
-	}
-
-
-	
 }
