@@ -30,7 +30,7 @@ public class LoginController {
 	
 	private static final Logger log = LogManager.getLogger(LoginController.class);
 	
-	@RequestMapping(value = "/checkout.html", method = RequestMethod.POST)
+	@RequestMapping(value = "/checkout9999999.html", method = RequestMethod.POST)
 	public ModelAndView login(Map<String, Object> model) {
 				
 		Map<String,String[]> map = context.getParameterMap();
