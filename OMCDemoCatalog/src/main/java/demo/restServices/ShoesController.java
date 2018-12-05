@@ -1,5 +1,9 @@
 package demo.restServices;
 
+import java.util.Optional;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import demo.exception.ShoesNotFoundException;
+import demo.filter.CorrelationIdFilter;
 import demo.repository.ShoesRepository;
 import demo.vo.Shoes;
 
@@ -17,6 +22,9 @@ public class ShoesController {
 
 	@Autowired
 	ShoesRepository shoesRepository;
+	
+	private static final Logger log = LogManager.getLogger(CorrelationIdFilter.class);
+
 	
 //	@GetMapping(path = "/shoes/{serialNumber}")
 //	public Shoes getShoes(@PathVariable Long serialNumber) {
@@ -29,14 +37,18 @@ public class ShoesController {
 	@GetMapping(path = "/shoes/{productName}")
 	public Shoes getShoes(@PathVariable String productName) {
 		
-		return shoesRepository.findByProductName(productName)
-				.orElseThrow(() -> new ShoesNotFoundException(productName));
-		
+		log.info("getShoes invoked with productName:["+productName+"] ...");
+		Shoes shoes = shoesRepository.findByProductName(productName).orElseThrow(() -> new ShoesNotFoundException(productName));
+		log.info("getShoes invoked with productName:["+productName+"] DONE");
+		return shoes;
 	}
 	
 	@GetMapping(path = "/shoes")
 	public Iterable<Shoes> getAllShoes() {
-		return shoesRepository.findAll();
+		log.info("getAllShoes invoked ...");
+		Iterable<Shoes> shoes = shoesRepository.findAll();
+		log.info("getAllShoes invoked ...DONE");
+		return shoes;
 	}
 	
 	@PostMapping("/shoes")

@@ -16,10 +16,16 @@
 
 package demo;
 
+import java.util.Arrays;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
+
+import demo.filter.CorrelationIdFilter;
 
 @SpringBootApplication
 public class ServicesOrderApplication extends SpringBootServletInitializer {
@@ -33,4 +39,13 @@ public class ServicesOrderApplication extends SpringBootServletInitializer {
 		SpringApplication.run(ServicesOrderApplication.class, args);
 	}
 
+	@Bean
+    public FilterRegistrationBean correlationHeaderFilter() {
+        FilterRegistrationBean filterRegBean = new FilterRegistrationBean();
+        filterRegBean.setFilter(new CorrelationIdFilter());
+        filterRegBean.setUrlPatterns(Arrays.asList("/*"));
+
+        return filterRegBean;
+    }
+	
 }

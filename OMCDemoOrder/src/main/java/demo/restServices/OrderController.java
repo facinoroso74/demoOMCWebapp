@@ -1,7 +1,6 @@
 package demo.restServices;
 
 import java.sql.Timestamp;
-import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,32 +34,42 @@ public class OrderController {
 	
 	@GetMapping(path = "/order/{customerOrder}")
 	public Order getOrder(@PathVariable Long customerOrder) {
-		log.info("getOrder called with customerOrder:["+customerOrder+"]");
+		log.info("getOrder invoked with customerOrder:["+customerOrder+"]");
 		
-		return orderRepository.findByCustomerOrder(customerOrder)
+		Order order= orderRepository.findByCustomerOrder(customerOrder)
 				.orElseThrow(() -> new OrderNotFoundException(customerOrder));
+		
+		log.info("getOrder invoked with customerOrder:["+customerOrder+"] DONE");
+		
+		return order;
+		
 	}
 	
 	@GetMapping(path = "/order")
 	public Iterable<Order> getAllOrder() {
-		log.info("getAllOrder called");
-		return orderRepository.findAll();
+		log.info("getAllOrder invoking...");
+		Iterable<Order> orders = orderRepository.findAll();
+		log.info("getAllOrder invoking...DONE");
+		return orders;
 	}
 	
 	@PostMapping("/order")
 	Order newCustomerOrder(@RequestBody Order order) {
-		log.info("newCustomerOrder called with order:["+order+"]");
+		log.info("newCustomerOrder invoking with order:["+order+"]");
 		order.setDateOrder(new Timestamp(System.currentTimeMillis()));
-		return orderRepository.save(order);
+		Order orderToReturn= orderRepository.save(order);
+		log.info("newCustomerOrder invoking with order:["+order+"] DONE");
+		return orderToReturn;
 	}
 	
 	@PutMapping("/order/{newOrder}")
 	Order updateOrder(@RequestBody Order newOrder) {
-		log.info("updateOrder called with order:["+newOrder+"]");
+		log.info("updateOrder invoking with order:["+newOrder+"]...");
 		newOrder.setDateOrder(new Timestamp(System.currentTimeMillis()));
 		newOrder.setStatus("PENDING PAYMENT");
-		return orderRepository.save(newOrder);
-			
+		Order orderReturned = orderRepository.save(newOrder);
+		log.info("updateOrder invoking with order:["+newOrder+"]...DONE");
+		return orderReturned;
 	}
 
 //	@DeleteMapping("/order/{customerOrder}")

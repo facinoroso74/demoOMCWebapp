@@ -31,20 +31,20 @@ public class ShipmentController {
 	
 	@GetMapping(path = "/shipment/{id}")
 	public Shipment getShipment(@PathVariable Long id) {
-		log.info("getShipment called with id:["+id+"]");
+		log.info("getShipment called with id:["+id+"]...");
 		return shipmentRepository.findById(id)
 				.orElseThrow(() -> new ShipmentNotFoundException(id));
 	}
 	
 	@GetMapping(path = "/shipment")
 	public Iterable<Shipment> getAllShipment() {
-		log.info("getAllShipment called");
+		log.info("getAllShipment called...");
 		return shipmentRepository.findAll();
 	}
 	
 	@PostMapping("/shipment")
 	Shipment newShipment(@RequestBody Shipment shipment) {
-		log.info("newShipment called with shipment:["+shipment.toString()+"]");
+		log.info("newShipment called with shipment:["+shipment.toString()+"]...");
 		return shipmentRepository.save(shipment);
 	}
 	
