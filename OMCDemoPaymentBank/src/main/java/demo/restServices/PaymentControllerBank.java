@@ -2,26 +2,20 @@ package demo.restServices;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import demo.exception.PaymentNotFoundException;
-import demo.repository.PaymentRepository;
-import demo.restClient.PaymentBankClient;
+import demo.exception.PaymentNotExecutedException;
 import demo.vo.Payment;
 
 @RestController
-public class PaymentController {
+public class PaymentControllerBank {
 
-	@Autowired
-	PaymentRepository paymentRepository;
 	
-	@Autowired
-	PaymentBankClient paymentBankClient;
+	private static final Logger log = LogManager.getLogger(PaymentControllerBank.class);
+	
 //	@GetMapping(path = "/shoes/{serialNumber}")
 //	public Shoes getShoes(@PathVariable Long serialNumber) {
 //		
@@ -29,30 +23,31 @@ public class PaymentController {
 //				.orElseThrow(() -> new ShoesNotFoundException(serialNumber));
 //		
 //	}
-	private static final Logger log = LogManager.getLogger(PaymentController.class);
+//	
+//	@GetMapping(path = "/payment/{id}")
+//	public Payment getPayment(@PathVariable Long id) {
+//		
+//		return paymentRepository.findById(id)
+//				.orElseThrow(() -> new PaymentNotFoundException(id));
+//		
+//	}
 	
-	@GetMapping(path = "/payment/{id}")
-	public Payment getPayment(@PathVariable Long id) {
-		
-		return paymentRepository.findById(id)
-				.orElseThrow(() -> new PaymentNotFoundException(id));
-		
-	}
-	
-	@GetMapping(path = "/payment")
-	public Iterable<Payment> getAllPayment() {
-		return paymentRepository.findAll();
-	}
+//	@GetMapping(path = "/payment")
+//	public Iterable<Payment> getAllPayment() {
+//		return paymentRepository.findAll();
+//	}
 	
 	@PostMapping("/payment")
 	Payment newPayment(@RequestBody Payment payment) {
-		log.info("new Payment invoking with payment:["+payment+"]...");
-		log.info("invoking the bankPayment...");
-		paymentBankClient.makeBankPayment(payment);
-		log.info("invoking the bankPayment...DONE");
-		Payment newPayment = paymentRepository.save(payment);
-		log.info("new Payment invoking with payment:["+payment+"]...DONE");
-		return newPayment;
+		try {
+			log.info("executing the payment:["+payment+"]...");
+			
+			log.info("executing the payment:["+payment+"]... DONE");
+			return payment;
+		}catch (Exception e) {
+			log.error("Exception on newPayment",e);
+			throw new PaymentNotExecutedException(payment.getSerialNumber());
+		}
 	}
 	
 //	@PutMapping("/shoes/{id}")

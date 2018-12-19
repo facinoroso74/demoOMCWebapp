@@ -36,15 +36,4 @@ public class ShipmentClient {
 		
 	} 
 	
-//	public Order getOrder(Long customerOrder) {
-//		log.info("calling... the Order Rest Service getOrder by CustomerOrder:"+customerOrder+"...");
-//		RestTemplate restTemplate = new RestTemplate();
-//		//String fooResourceUrl = "http://localhost:8181/shoes/";
-//		ResponseEntity<Order> response
-//		  = restTemplate.getForEntity(restServiceConfiguration.getCatalogEndPoint() + "/"+ customerOrder, Order.class);
-//		//assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
-//		log.info("calling... the Catalog Rest Service getOrder...DONE");
-//		return response.getBody();
-//	}
-//	
 }

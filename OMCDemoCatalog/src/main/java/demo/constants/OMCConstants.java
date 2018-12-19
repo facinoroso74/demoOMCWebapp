@@ -1,4 +1,4 @@
-package constants;
+package demo.constants;
 
 public interface OMCConstants {
 

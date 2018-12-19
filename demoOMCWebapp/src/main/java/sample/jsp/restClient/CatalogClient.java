@@ -1,18 +1,18 @@
 package sample.jsp.restClient;
 
+import java.util.UUID;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import sample.jsp.config.RestServiceConfiguration;
-import sample.jsp.constants.OMCConstants;
 import sample.jsp.vo.Shoes;
 
 @Component("catalogClient")
@@ -28,32 +28,37 @@ public class CatalogClient {
 	
 	public Shoes[] getAllShoes() {
 		
+		String currentCorrId = UUID.randomUUID().toString();
+		MDC.put("correlationId", currentCorrId);
+		
 		log.info("calling... the Catalog Rest Service AllShoes...");
 		
 		//String fooResourceUrl = "http://localhost:8181/shoes/";
-		HttpHeaders httpHeaders = new HttpHeaders();
-	        httpHeaders.set(OMCConstants.CORRELATION_ID,MDC.get("X-Correlation-Id"));
-	        
+		        
 		ResponseEntity<Shoes[]> response
-		  = restTemplate.exchange(restServiceConfiguration.getCatalogEndPoint(), HttpMethod.GET,new HttpEntity<String>(httpHeaders),Shoes[].class);
+		  = restTemplate.exchange(
+				  restServiceConfiguration.getCatalogEndPoint(), 
+				  HttpMethod.GET,
+				  new HttpEntity<String>(CorrellationIdUtility.getHttpHeadersWithCorrId()),
+				  Shoes[].class);
 		
-		//assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
 		log.info("calling... the Catalog Rest Service AllShoes...DONE");
 		return response.getBody();
 	}
 	
 	public Shoes getShoes(String productName) {
 		
-		HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set(OMCConstants.CORRELATION_ID,MDC.get("X-Correlation-Id"));
-   
-        
+		String currentCorrId = UUID.randomUUID().toString();
+		MDC.put("correlationId", currentCorrId);
 		log.info("calling... the Catalog Rest Service getShoeBuProductName...");
-		//RestTemplate restTemplate = new RestTemplate();
-		//String fooResourceUrl = "http://localhost:8181/shoes/";
+
 		ResponseEntity<Shoes> response
-		  = restTemplate.getForEntity(restServiceConfiguration.getCatalogEndPoint() + "/"+ productName, Shoes.class);
-		//assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
+		  = restTemplate.exchange(
+				  restServiceConfiguration.getCatalogEndPoint()+ "/"+ productName,
+				  HttpMethod.GET,
+				  new HttpEntity<String>(CorrellationIdUtility.getHttpHeadersWithCorrId()),
+				  Shoes.class);
+		
 		log.info("calling... the Catalog Rest Service getShoeBuProductName...DONE");
 		return response.getBody();
 	}

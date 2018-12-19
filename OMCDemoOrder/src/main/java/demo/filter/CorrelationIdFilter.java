@@ -1,7 +1,6 @@
 package demo.filter;
 
 import java.io.IOException;
-import java.util.UUID;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -33,16 +32,20 @@ public class CorrelationIdFilter implements Filter {
 
         final HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         String currentCorrId = httpServletRequest.getHeader(OMCConstants.CORRELATION_ID);
-
-        if (currentCorrId == null) {
-            currentCorrId = UUID.randomUUID().toString();
-            log.info("No correlationId found in Header. Generated : " + currentCorrId);
-        } else {
-        	log.info("Found correlationId in Header : " + currentCorrId);
-        }
+        
+        log.info("currentCorrId="+currentCorrId);
+        if(currentCorrId==null)
+        	currentCorrId = MDC.get("correlationId");
+        
+//        if (currentCorrId == null) {
+//            currentCorrId = UUID.randomUUID().toString();
+//            log.info("No correlationId found in Header. Generated : " + currentCorrId);
+//        } else {
+//        	log.info("Found correlationId in Header : " + currentCorrId);
+//        }
 
         //RequestCorrelation.setId(currentCorrId);
-        MDC.put("correlation-id", currentCorrId);
+        MDC.put("correlationId", currentCorrId);
 
         filterChain.doFilter(httpServletRequest, servletResponse);
     }

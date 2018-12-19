@@ -1,10 +1,10 @@
-package sample.jsp.restClient;
+package demo.restClient;
 
 import java.util.UUID;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.slf4j.MDC;
+import org.jboss.logging.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -12,46 +12,42 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import sample.jsp.config.RestServiceConfiguration;
-import sample.jsp.vo.Order;
-import sample.jsp.vo.Payment;
+import demo.config.RestServiceConfiguration;
+import demo.vo.Payment;
 
-@Component("paymentClient")
-public class PaymentClient {
+@Component("paymentBankClient")
+public class PaymentBankClient {
 
     @Autowired
 	private RestServiceConfiguration restServiceConfiguration;
     
-    private static final Logger log = LogManager.getLogger(PaymentClient.class);
+    private static final Logger log = LogManager.getLogger(PaymentBankClient.class);
 	
-	public PaymentClient() {
+	public PaymentBankClient() {
 	}
 	
-	private RestTemplate restTemplate= new RestTemplate();
-	
-	
-	public Payment makePayment(Payment payment) {
-		
+	public Payment makeBankPayment(Payment payment) {
+
 		String currentCorrId = UUID.randomUUID().toString();
 		MDC.put("correlationId", currentCorrId);
-				
-		log.info("calling... the Payment Rest Service for payment creation." + payment +"..."+restServiceConfiguration.getPaymentEndPoint());
 		
+		
+		log.info("calling... the Payment Rest Service for order creation." + payment +"..."+restServiceConfiguration.getPaymentEndPoint());
+		RestTemplate restTemplate= new RestTemplate();
 		final HttpEntity<Payment> request = new HttpEntity<>(payment);
 		
-//		ResponseEntity<Payment> paymentCreated
+//		ResponseEntity<Payment> response
 //		  = restTemplate.exchange(
 //				  restServiceConfiguration.getPaymentEndPoint(), 
 //				  HttpMethod.POST,
-//				  request,
+//				  new HttpEntity<String>(CorrellationIdUtility.getHttpHeadersWithCorrId()),
 //				  Payment.class);
 		
-		final Payment paymentCreated = restTemplate.postForObject(restServiceConfiguration.getPaymentEndPoint(), request, Payment.class);
+        final Payment paymentCreated = restTemplate.postForObject(restServiceConfiguration.getPaymentEndPoint(), request, Payment.class);
         		
 		log.info("calling... the Payment Rest Service for order creation...DONE");
 		
 		return paymentCreated;
-		
 	} 
 	
 }

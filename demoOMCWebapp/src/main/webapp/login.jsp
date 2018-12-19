@@ -113,24 +113,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="inner_section_w3ls">
 				<div class="col-md-7 contact_grid_right">
 					<h6>Login</h6>
+					<c:url var="login" value="/login"/>
 					
-					<form:form method="post" action="checkout2.html" modelAttribute="cart">
-						<input type="text" name="MyUserName" placeholder="UserName" required="">
-						<input type="text" name="MyPassword" placeholder="Password" required="">
-					
-						<c:forEach items="${cart.shoesItems}" var="shoesItem" varStatus="status">
-							<input type="text" name="shoesItems[${status.index}].shoe_item" value="${shoesItem.shoe_item}"/>
-							<input type="text" name="shoesItems[${status.index}].quantity" value="${shoesItem.quantity}"/>
-							<input type="text" name="shoesItems[${status.index}].shipping1" value="${shoesItem.shipping1}"/>
-							<input type="text" name="shoesItems[${status.index}].shipping2" value="${shoesItem.shipping2}"/>
-							<input type="text" name="shoesItems[${status.index}].imagePath" value="${shoesItem.imagePath}"/>
-							<input type="text" name="shoesItems[${status.index}].amount" value="${shoesItem.amount}"/>
-						</c:forEach>		
-						<input type="hidden" name="subtotal" value="${cart.subtotal}"/>
-						<input type="submit" value="Continue To Shop">
+					<form:form action="${login}" method="post">
+<!-- 						<input type="text" name="username" placeholder="UserName" required=""> -->
+<!-- 						<input type="text" name="password" placeholder="Password" required=""> -->
+<!-- 						<input type="submit" value="Continue To Shop"> -->
+						
+						<label>Username:</label> <input type="text" name="username" />
+						<label>Password:</label> <input type="text" name="password" />
+						<input type="text" name="prova" value="${login}">
+						<input type="submit"/>
+			
+			
 					</form:form>
+					
 				</div>
-
 
 			</div>
 

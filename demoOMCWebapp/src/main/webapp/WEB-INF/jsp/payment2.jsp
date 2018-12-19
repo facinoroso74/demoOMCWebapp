@@ -57,6 +57,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<li><a href="404.html">Team</a></li>
 							<li><a href="shop.html">Shop Now</a></li>
 							<li><a href="contact.html">Contact</a></li>
+							<li><a href="/login">Login</a></li>
+							<li><a href="/perform_logout">Logout</a></li>
 						</ul>
 					</nav>
 				</div>
@@ -155,7 +157,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 															<div class="controls">
 																<label class="control-label">Card Number</label>
 																<input class="number credit-card-number form-control" type="text" name="number" inputmode="numeric" autocomplete="cc-number"
-<!-- 																<input class="number credit-card-number form-control" type="text" name="cardNumber" inputmode="numeric" autocomplete="cc-number" -->
 																    autocompletetype="cc-number" x-autocompletetype="cc-number" placeholder="&#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149;">
 															</div>
 														</div>

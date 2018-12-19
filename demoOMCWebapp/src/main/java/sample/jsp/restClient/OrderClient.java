@@ -1,9 +1,15 @@
 package sample.jsp.restClient;
 
+import java.util.UUID;
+
+import javax.swing.plaf.BorderUIResource.EmptyBorderUIResource;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -23,30 +29,59 @@ public class OrderClient {
 	public OrderClient() {
 	}
 	
+	private RestTemplate restTemplate= new RestTemplate();
 	
 	public Order createOrder(Order order) {
-					
+		String currentCorrId = UUID.randomUUID().toString();
+		MDC.put("correlationId", currentCorrId);
+				
 		log.info("calling... the Order Rest Service for order creation." + order +"..."+restServiceConfiguration.getOrderEndPoint());
-		RestTemplate restTemplate= new RestTemplate();
-		final HttpEntity<Order> request = new HttpEntity<>(order);
 		
-        final Order orderCreated = restTemplate.postForObject(restServiceConfiguration.getOrderEndPoint(), request, Order.class);
-        		
+//		final HttpEntity<Order> request = new HttpEntity<>(order);
+//		
+		
+		HttpHeaders headers = CorrellationIdUtility.getHttpHeadersWithCorrId();
+        HttpEntity<Order> entity = new HttpEntity<Order>(order, headers);
+
+        
+		ResponseEntity<Order> orderCreated
+		  = restTemplate.exchange(
+				  restServiceConfiguration.getOrderEndPoint(), 
+				  HttpMethod.POST,
+				  entity,
+				  Order.class);
+	
+//		HttpHeaders headers = CorrellationIdUtility.getHttpHeadersWithCorrId();
+//        HttpEntity<Order> entity = new HttpEntity<Order>(order, headers);
+//        restTemplate.postForLocation(restServiceConfiguration.getOrderEndPoint(), entity);
+//        
+	 		
 		log.info("calling... the Order Rest Service for order creation...DONE");
 		
-		return orderCreated;
+		return orderCreated.getBody();
 		
 	} 
 	
 	public Order getOrder(Long customerOrder) {
+		
+		String currentCorrId = UUID.randomUUID().toString();
+		MDC.put("correlationId", currentCorrId);
+		
 		log.info("calling... the Order Rest Service getOrder by CustomerOrder:"+customerOrder+"...");
-		RestTemplate restTemplate = new RestTemplate();
-		//String fooResourceUrl = "http://localhost:8181/shoes/";
-		ResponseEntity<Order> response
-		  = restTemplate.getForEntity(restServiceConfiguration.getOrderEndPoint() + "/"+ customerOrder, Order.class);
-		//assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
+		
+		ResponseEntity<Order> orderRetrieved
+		  = restTemplate.exchange(
+				  restServiceConfiguration.getOrderEndPoint() + "/" + customerOrder, 
+				  HttpMethod.GET,
+				  new HttpEntity<String>(CorrellationIdUtility.getHttpHeadersWithCorrId()),
+				  Order.class);
+				
+//		ResponseEntity<Order> response
+//		  = restTemplate.getForEntity(restServiceConfiguration.getOrderEndPoint() + "/"+ customerOrder, Order.class);
+		
+	
 		log.info("calling... the Catalog Rest Service getOrder...DONE");
-		return response.getBody();
+		return orderRetrieved.getBody();
 	}
 
 
@@ -55,18 +90,49 @@ public class OrderClient {
 		Order order = getOrder(orderId);
 		log.info("order retrieved:["+order+"]");
 		order.setShipmentId(shipmentId);
-        final HttpEntity<Order> requestUpdate = new HttpEntity<>(order);
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.exchange(restServiceConfiguration.getOrderEndPoint() + "/"+ orderId, HttpMethod.PUT, requestUpdate, Void.class);
-
+		
+		String currentCorrId = UUID.randomUUID().toString();
+		MDC.put("correlationId", currentCorrId);
+		
+        //final HttpEntity<Order> requestUpdate = new HttpEntity<>(order);
+        HttpHeaders headers = CorrellationIdUtility.getHttpHeadersWithCorrId();
+        HttpEntity<Order> entity = new HttpEntity<Order>(order, headers);
+        
+        restTemplate.exchange(
+        			restServiceConfiguration.getOrderEndPoint() + "/"+ orderId, 
+        			HttpMethod.PUT, 
+        			entity, 
+        			Void.class);
+      
+        log.info("order updated:["+order+"]");
+        
 	}
 	
 	public void updateOrderWithTransactionId(Order order) {
 
-        final HttpEntity<Order> requestUpdate = new HttpEntity<>(order);
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.exchange(restServiceConfiguration.getOrderEndPoint() + "/"+ order.getCustomerOrder(), HttpMethod.PUT, requestUpdate, Void.class);
+//		 final HttpEntity<Order> requestUpdate = new HttpEntity<>(order);
+        
+//		  restTemplate.exchange(restServiceConfiguration.getOrderEndPoint() + "/"+ order.getCustomerOrder(), HttpMethod.PUT, requestUpdate, Void.class);
 
+//        HttpHeaders headers = CorrellationIdUtility.getHttpHeadersWithCorrId();
+//        HttpEntity<Order> entity = new HttpEntity<Order>(order, headers);
+//        restTemplate.postForLocation("http://example.com", entity);
+
+        log.info("order updated:["+order+"] with the TransactionID...");
+        
+        String currentCorrId = UUID.randomUUID().toString();
+		MDC.put("correlationId", currentCorrId);
+		
+        HttpHeaders headers = CorrellationIdUtility.getHttpHeadersWithCorrId();
+        HttpEntity<Order> entity = new HttpEntity<Order>(order, headers);
+        
+        restTemplate.exchange(
+        			restServiceConfiguration.getOrderEndPoint() + "/"+ order.getCustomerId(), 
+        			HttpMethod.PUT, 
+        			entity, 
+        			Void.class);
+        
+        log.info("order updated:["+order+"] with the TransactionID...DONE");
 	}
 	
 	

@@ -21,7 +21,7 @@
     	
     	 <RollingFile name="MyFile" fileName="app-info.log" filePattern="app-info-%d{yyyy-MM-dd}.log">
             <PatternLayout>
-                <pattern>%d{yyy-MM-dd HH:mm:ss.SSS} - [%X{TID}][%t] %-5level %logger{36} - %msg%n</pattern>
+                <pattern>%d{yyy-MM-dd HH:mm:ss.SSS} - [%X{correlationId}][%t] %-5level %logger{36} - %msg%n</pattern>
             </PatternLayout>
             <Policies>
 <!--                 <TimeBasedTriggeringPolicy interval="1" modulate="true" /> -->
